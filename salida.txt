@@ -1,0 +1,7 @@
+1:  program primos;
+2:  
+3:  begin
+4:  
+5:  a := 5 + 10; 
+6:  
+7:  end

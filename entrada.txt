@@ -1,0 +1,7 @@
+program primos;
+
+begin
+
+a := 5 + 10; 
+
+end
