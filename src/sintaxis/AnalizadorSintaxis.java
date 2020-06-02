@@ -153,8 +153,7 @@ public class AnalizadorSintaxis implements Simbolos
                     simbolo = listaSimbolos.get(simboloActual);
                     if(expresionSimple())
                     {
-                        simboloActual++;
-                        simbolo = listaSimbolos.get(simboloActual);
+                        
                         if(listaSimbolos.get(simboloActual) == Simbolo.PUNTO_Y_COMA)
                         {
                             simboloActual++;
@@ -437,15 +436,15 @@ public class AnalizadorSintaxis implements Simbolos
     {
         if(expresionSimple())
         {
-            simboloActual++;
-            simbolo = listaSimbolos.get(simboloActual);
-            if(listaSimbolos.get(simboloActual) == Simbolo.OP_MAYOR_IGUAL || 
-               listaSimbolos.get(simboloActual) == Simbolo.OP_MENOR_IGUAL ||
-               listaSimbolos.get(simboloActual) == Simbolo.OP_MENOR_QUE ||
-               listaSimbolos.get(simboloActual) == Simbolo.OP_MAYOR_QUE ||
-               listaSimbolos.get(simboloActual) == Simbolo.OP_IGUALDAD ||
-               listaSimbolos.get(simboloActual) == Simbolo.OP_DESIGUALDAD)
+            if(listaSimbolos.get(simboloActual + 1)  == Simbolo.OP_MAYOR_IGUAL || 
+               listaSimbolos.get(simboloActual + 1) == Simbolo.OP_MENOR_IGUAL ||
+               listaSimbolos.get(simboloActual + 1) == Simbolo.OP_MENOR_QUE ||
+               listaSimbolos.get(simboloActual + 1) == Simbolo.OP_MAYOR_QUE ||
+               listaSimbolos.get(simboloActual + 1) == Simbolo.OP_IGUALDAD ||
+               listaSimbolos.get(simboloActual + 1) == Simbolo.OP_DESIGUALDAD)
             {
+                simboloActual++;
+                simbolo = listaSimbolos.get(simboloActual);
                 simboloActual++;
                 simbolo = listaSimbolos.get(simboloActual);
                 if(expresionSimple())
@@ -471,8 +470,7 @@ public class AnalizadorSintaxis implements Simbolos
             simbolo = listaSimbolos.get(simboloActual);
             if(expresion())
             {
-                simboloActual++;
-                simbolo = listaSimbolos.get(simboloActual);
+
                 if(listaSimbolos.get(simboloActual) == Simbolo.PARENTESIS_DER)
                 {
                     return true;
