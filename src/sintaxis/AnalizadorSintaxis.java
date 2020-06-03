@@ -180,7 +180,7 @@ public class AnalizadorSintaxis implements Simbolos
                     simbolo = listaSimbolos.get(simboloActual);
                     if(expresion())
                     {
-                        
+                      afk
                         if(listaSimbolos.get(simboloActual) == Simbolo.PARENTESIS_DER)
                         {
                             simboloActual++;
