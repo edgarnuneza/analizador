@@ -30,6 +30,7 @@ public class AnalizadorSintaxis implements Simbolos
                     simboloActual++;
                     if(declaraciones())
                     {
+                        
                         System.out.println("Se fue a instrucciones");
                         simboloActual++;
                         instruccion();
@@ -179,8 +180,7 @@ public class AnalizadorSintaxis implements Simbolos
                     simbolo = listaSimbolos.get(simboloActual);
                     if(expresion())
                     {
-                        simboloActual++;
-                        simbolo = listaSimbolos.get(simboloActual);
+                        
                         if(listaSimbolos.get(simboloActual) == Simbolo.PARENTESIS_DER)
                         {
                             simboloActual++;
@@ -233,8 +233,7 @@ public class AnalizadorSintaxis implements Simbolos
                     simbolo = listaSimbolos.get(simboloActual);
                     if(expresion())
                     {
-                        simboloActual++;
-                        simbolo = listaSimbolos.get(simboloActual);
+                        
                         if(listaSimbolos.get(simboloActual) == Simbolo.PARENTESIS_DER)
                         {
                             simboloActual++;
@@ -323,16 +322,14 @@ public class AnalizadorSintaxis implements Simbolos
             
             if(expresion())
             {
-                simboloActual++;
-                simbolo = listaSimbolos.get(simboloActual);
+                
                 if(listaSimbolos.get(simboloActual) == Simbolo.PUNTO_Y_COMA)
                 {
                     simboloActual++;
                     simbolo = listaSimbolos.get(simboloActual);
-                    if(expresionSimple())
+                    if(asignacion())
                     {
-                        simboloActual++;
-                        simbolo = listaSimbolos.get(simboloActual);
+                        
                         if(listaSimbolos.get(simboloActual) == Simbolo.PARENTESIS_DER)
                         {
                             simboloActual++;
@@ -380,9 +377,26 @@ public class AnalizadorSintaxis implements Simbolos
                 simbolo = listaSimbolos.get(simboloActual);
                 return true;
             }
-            
-        
-       
+ 
+        return false;
+    }
+    
+    public boolean asignacion()
+    {
+        if (listaSimbolos.get(simboloActual) == Simbolo.IDENTIFICADOR)
+        {
+            simboloActual++;
+            simbolo = listaSimbolos.get(simboloActual);
+            if (listaSimbolos.get(simboloActual) == Simbolo.OP_ASIGNACION)
+            {
+                simboloActual++;
+                simbolo = listaSimbolos.get(simboloActual);
+                if(expresionSimple())
+                {
+                    return true;
+                }
+            }
+        }
         return false;
     }
     
@@ -445,6 +459,25 @@ public class AnalizadorSintaxis implements Simbolos
             {
                 simboloActual++;
                 simbolo = listaSimbolos.get(simboloActual);
+                /*simboloActual++;
+                simbolo = listaSimbolos.get(simboloActual);
+                if(expresionSimple())
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }*/
+            }
+            if(listaSimbolos.get(simboloActual)  == Simbolo.OP_MAYOR_IGUAL || 
+               listaSimbolos.get(simboloActual) == Simbolo.OP_MENOR_IGUAL ||
+               listaSimbolos.get(simboloActual) == Simbolo.OP_MENOR_QUE ||
+               listaSimbolos.get(simboloActual) == Simbolo.OP_MAYOR_QUE ||
+               listaSimbolos.get(simboloActual) == Simbolo.OP_IGUALDAD ||
+               listaSimbolos.get(simboloActual) == Simbolo.OP_DESIGUALDAD)
+            {
+                
                 simboloActual++;
                 simbolo = listaSimbolos.get(simboloActual);
                 if(expresionSimple())
@@ -490,7 +523,13 @@ public class AnalizadorSintaxis implements Simbolos
         }
         if(listaSimbolos.get(simboloActual) == Simbolo.OP_NOT)
         {
-            factor(false);
+            simboloActual++;
+            simbolo = listaSimbolos.get(simboloActual);
+            if(factor(false))
+            {
+                return true;
+                
+            }
         }
         
         
