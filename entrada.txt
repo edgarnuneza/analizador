@@ -1,11 +1,18 @@
 program primos;
 
 begin
+	for(var integer i := 1; i <= 10; i := o + 8)
+	{
+		if (p == 8)
+		{
+			l := 8;
+		}
+		    else
+		{
+		       k := 27;	
+		}
 
-if(k && l || l == 8)
-{
+	}	
 
-
-}
 
 end
