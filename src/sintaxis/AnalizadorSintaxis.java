@@ -180,7 +180,7 @@ public class AnalizadorSintaxis implements Simbolos
                     simbolo = listaSimbolos.get(simboloActual);
                     if(expresion())
                     {
-                      afk
+                     
                         if(listaSimbolos.get(simboloActual) == Simbolo.PARENTESIS_DER)
                         {
                             simboloActual++;
@@ -421,7 +421,7 @@ public class AnalizadorSintaxis implements Simbolos
                 //simboloActual++;
                 //simbolo = listaSimbolos.get(simboloActual);
             }
-        } while (listaSimbolos.get(simboloActual) == Simbolo.OP_SUMA || listaSimbolos.get(simboloActual) == Simbolo.OP_RESTA || listaSimbolos.get(simboloActual) == Simbolo.OP_OR);
+        } while (listaSimbolos.get(simboloActual) == Simbolo.OP_SUMA || listaSimbolos.get(simboloActual) == Simbolo.OP_RESTA);
         
         return true;
     }
@@ -442,7 +442,7 @@ public class AnalizadorSintaxis implements Simbolos
                 simbolo = listaSimbolos.get(simboloActual);
             }
             
-        } while (listaSimbolos.get(simboloActual) == Simbolo.OP_MULTIPLICACION || listaSimbolos.get(simboloActual) == Simbolo.OP_DIVISION || listaSimbolos.get(simboloActual) == Simbolo.OP_MODULO || listaSimbolos.get(simboloActual) == Simbolo.OP_AND);
+        } while (listaSimbolos.get(simboloActual) == Simbolo.OP_MULTIPLICACION || listaSimbolos.get(simboloActual) == Simbolo.OP_DIVISION || listaSimbolos.get(simboloActual) == Simbolo.OP_MODULO);
         return true;
     }
     
@@ -455,20 +455,14 @@ public class AnalizadorSintaxis implements Simbolos
                listaSimbolos.get(simboloActual + 1) == Simbolo.OP_MENOR_QUE ||
                listaSimbolos.get(simboloActual + 1) == Simbolo.OP_MAYOR_QUE ||
                listaSimbolos.get(simboloActual + 1) == Simbolo.OP_IGUALDAD ||
-               listaSimbolos.get(simboloActual + 1) == Simbolo.OP_DESIGUALDAD)
+               listaSimbolos.get(simboloActual + 1) == Simbolo.OP_DESIGUALDAD
+               
+                  )
             {
+                
                 simboloActual++;
                 simbolo = listaSimbolos.get(simboloActual);
-                /*simboloActual++;
-                simbolo = listaSimbolos.get(simboloActual);
-                if(expresionSimple())
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }*/
+
             }
             if(listaSimbolos.get(simboloActual)  == Simbolo.OP_MAYOR_IGUAL || 
                listaSimbolos.get(simboloActual) == Simbolo.OP_MENOR_IGUAL ||
@@ -482,11 +476,30 @@ public class AnalizadorSintaxis implements Simbolos
                 simbolo = listaSimbolos.get(simboloActual);
                 if(expresionSimple())
                 {
+                    if(listaSimbolos.get(simboloActual) == Simbolo.OP_AND || listaSimbolos.get(simboloActual) == Simbolo.OP_OR)
+                    {
+                        simboloActual++;
+                        simbolo = listaSimbolos.get(simboloActual);
+                        if(expresion())
+                        {
+                            return true;
+                        }
+                    }
                     return true;
                 }
                 else
                 {
                     return false;
+                }
+            }
+            
+            if(listaSimbolos.get(simboloActual) == Simbolo.OP_AND || listaSimbolos.get(simboloActual) == Simbolo.OP_OR)
+            {
+                simboloActual++;
+                simbolo = listaSimbolos.get(simboloActual);
+                if(expresion())
+                {
+                    return true;
                 }
             }
             return true;

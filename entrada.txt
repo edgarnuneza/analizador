@@ -2,8 +2,9 @@ program primos;
 
 begin
 
-if(!i != 7 || j <= 8)
+if(k && l || l == 8)
 {
+
 
 }
 
