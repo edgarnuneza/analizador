@@ -1,4 +1,5 @@
 package sintaxis;
+import static java.lang.System.exit;
 import java.util.ArrayList;
 import lexico.*;
 
@@ -155,21 +156,56 @@ public class AnalizadorSintaxis implements Simbolos
             {
                 simboloActual++;
                 simbolo = listaSimbolos.get(simboloActual);
-                if(listaSimbolos.get(simboloActual) == Simbolo.OP_ASIGNACION)
+                switch(listaSimbolos.get(simboloActual))
                 {
-                    simboloActual++;
-                    simbolo = listaSimbolos.get(simboloActual);
-                    if(expresionSimple())
-                    {
+                    case OP_ASIGNACION:
+                        simboloActual++;
+                        simbolo = listaSimbolos.get(simboloActual);
+                        if(expresionSimple())
+                        {
+                            if(listaSimbolos.get(simboloActual) == Simbolo.PUNTO_Y_COMA)
+                            {
+                                simboloActual++;
+                                simbolo = listaSimbolos.get(simboloActual);
+
+                            }
+                        }
+                        break;
+                    case PARENTESIS_IZQ: 
+                        do {                            
+                            simboloActual++;
+                            simbolo = listaSimbolos.get(simboloActual);
+                            if(!expresion())
+                            {
+                                error();
+                            }
+                        } while (listaSimbolos.get(simboloActual) == Simbolo.COMA);
                         
-                        if(listaSimbolos.get(simboloActual) == Simbolo.PUNTO_Y_COMA)
+                       if (listaSimbolos.get(simboloActual) == Simbolo.PARENTESIS_DER)
+                       {
+                           simboloActual++;
+                           simbolo = listaSimbolos.get(simboloActual);
+                           if (listaSimbolos.get(simboloActual) == Simbolo.PUNTO_Y_COMA)
+                           {
+                               simboloActual++;
+                               simbolo = listaSimbolos.get(simboloActual);
+                           }
+                           
+                       }
+                       break;
+                       
+                    case OP_DECREMENTO:
+                    case OP_INCREMENTO:
+                        simboloActual++;
+                        simbolo = listaSimbolos.get(simboloActual);
+                        if (listaSimbolos.get(simboloActual) == Simbolo.PUNTO_Y_COMA)
                         {
                             simboloActual++;
                             simbolo = listaSimbolos.get(simboloActual);
-                            
                         }
-                    }
+                    
                 }
+                
             }
             
             if(listaSimbolos.get(simboloActual) == Simbolo.LLAVE_DER)
@@ -583,6 +619,7 @@ public class AnalizadorSintaxis implements Simbolos
     public void error()
     {
         System.out.println("Hay un error de sintaxis");
+        exit(1);
     }
 
     public boolean constante()

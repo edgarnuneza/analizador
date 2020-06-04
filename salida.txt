@@ -1,21 +1,9 @@
 1:  program primos;
 2:  
 3:  begin
-4:  
-5:  		if (p == 8 && k == 49)
-6:  		{
-7:  			l := 8;
-8:  		}
-9:  		else
-10:  		{
-11:  		       k := 27;	
-12:  		}
-13:  end
-14:  
-15:  function integer cuadrado(integer g)
-16:  var integer b := 4.5;
-17:  begin 
-18:  return true;
-19:  end
-20:  
-21:  
+4:  	i++;
+5:  end
+6:  
+7:  
+8:  
+9:  

@@ -1,21 +1,9 @@
 program primos;
 
 begin
-
-		if (p == 8 && k == 49)
-		{
-			l := 8;
-		}
-		else
-		{
-		       k := 27;	
-		}
+	i++;
 end
 
-function integer cuadrado(integer g)
-var integer b := 4.5;
-begin 
-return true;
-end
+
 
 
