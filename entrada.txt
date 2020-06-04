@@ -1,18 +1,21 @@
 program primos;
 
 begin
-	for(var integer i := 1; i <= 10; i := o + 8)
-	{
-		if (p == 8)
+
+		if (p == 8 && k == 49)
 		{
 			l := 8;
 		}
-		    else
+		else
 		{
 		       k := 27;	
 		}
-
-	}	
-
-
 end
+
+function integer cuadrado(integer g)
+var integer b := 4.5;
+begin 
+return true;
+end
+
+

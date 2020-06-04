@@ -19,6 +19,7 @@ public interface Simbolos {
         ELSE_SIM,
         WHILE_SIM,
         FOR_SIM,
+        VOID_SIM,
         CASE_SIM,
         WHEN_SIM,
         ESAC_SIM,
@@ -104,9 +105,9 @@ FOR_SIM,
     public String[] tablaPalabrasReservadas
             = {"program", "begin", "end", "var", "const", "real",
                 "boolean", "integer", "character", "if", "then", "fi", "else",
-                "while", "for", "case", "when", "esac", "otherwise", "exit", "function", "return"};
+                "while", "for", "void", "case", "when", "esac", "otherwise", "exit", "function", "return"};
     public String[] tablaSimbolosPalabrasReservadas
             = {"PROGRAM_SIM", "BEGIN_SIM", "END_SIM", "VAR_SIM", "CONST_SIM", "REAL_SIM",
                 "BOOLEAN_SIM", "INTEGER_SIM", "CHARACTER_SIM", "IF_SIM", "THEN_SIM", "FI_SIM", "ELSE_SIM",
-                "WHILE_SIM", "FOR_SIM", "CASE_SIM", "WHEN_SIM", "ESAC_SIM", "OTHERWISE_SIM", "EXIT_SIM", "FUNCTION_SIM", "RETURN_SIM"};
+                "WHILE_SIM", "FOR_SIM", "VOID_SIM", "CASE_SIM", "WHEN_SIM", "ESAC_SIM", "OTHERWISE_SIM", "EXIT_SIM", "FUNCTION_SIM", "RETURN_SIM"};
 }

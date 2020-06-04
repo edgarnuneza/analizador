@@ -30,10 +30,17 @@ public class AnalizadorSintaxis implements Simbolos
                     simboloActual++;
                     if(declaraciones())
                     {
-                        
-                        System.out.println("Se fue a instrucciones");
                         simboloActual++;
-                        instruccion();
+                        if(instruccion())
+                        {
+                            simboloActual++;
+                            if(funcion())
+                            {
+                                System.out.println("Compilación sin errores");
+                            }
+                            
+                        }
+  
                     }
                 }
                     
@@ -131,11 +138,11 @@ public class AnalizadorSintaxis implements Simbolos
     public boolean tipo()
     {
         Simbolo tipo = listaSimbolos.get(simboloActual);
-        if(tipo == Simbolo.INTEGER_SIM || tipo == Simbolo.REAL_SIM || tipo == Simbolo.BOOLEAN_SIM || tipo == Simbolo.CHARACTER_SIM)
+        if(tipo == Simbolo.INTEGER_SIM || tipo == Simbolo.REAL_SIM || tipo == Simbolo.BOOLEAN_SIM || tipo == Simbolo.CHARACTER_SIM || tipo == Simbolo.VOID_SIM)
         {
             return true;
         }
-        error();
+ 
         return false;
     }
     
@@ -255,6 +262,30 @@ public class AnalizadorSintaxis implements Simbolos
 
                     }
                     
+                }
+            }
+            
+            if(listaSimbolos.get(simboloActual) == Simbolo.RETURN_SIM)
+            {
+                boolean returnVacio = false;
+                
+                
+                simboloActual++;
+                simbolo = listaSimbolos.get(simboloActual);
+                
+                if(listaSimbolos.get(simboloActual) == Simbolo.PUNTO_Y_COMA)
+                {
+                    returnVacio = true;
+                    simboloActual++;
+                    simbolo = listaSimbolos.get(simboloActual);
+                }
+                if(expresionSimple() && !returnVacio)
+                {
+                    if(listaSimbolos.get(simboloActual) == Simbolo.PUNTO_Y_COMA)
+                    {
+                        simboloActual++;
+                        simbolo = listaSimbolos.get(simboloActual);
+                    }
                 }
             }
             
@@ -573,6 +604,85 @@ public class AnalizadorSintaxis implements Simbolos
         }
         return false;
         
+    }
+    
+    public boolean parametros()
+    {
+        if(listaSimbolos.get(simboloActual) == Simbolo.PARENTESIS_DER)
+        {
+            return true;
+        }
+        do {
+            if(tipo())
+            {
+                simboloActual++;
+                simbolo = listaSimbolos.get(simboloActual);
+                if(listaSimbolos.get(simboloActual) == Simbolo.IDENTIFICADOR)
+                {
+                    simboloActual++;
+                    simbolo = listaSimbolos.get(simboloActual);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            
+        } while (listaSimbolos.get(simboloActual) == Simbolo.COMA);
+        
+        return true;
+    }
+    
+    public boolean funcion()
+    {
+        while(listaSimbolos.get(simboloActual) != Simbolo.FIN_DE_ARCHIVO)
+        {
+            if(listaSimbolos.get(simboloActual) == Simbolo.FUNCTION_SIM)
+            {
+                simboloActual++;
+                simbolo = listaSimbolos.get(simboloActual);
+                if(tipo())
+                {
+                    simboloActual++;
+                    simbolo = listaSimbolos.get(simboloActual);
+                    if(listaSimbolos.get(simboloActual) == Simbolo.IDENTIFICADOR)
+                    {
+                        simboloActual++;
+                        simbolo = listaSimbolos.get(simboloActual);
+                        if (listaSimbolos.get(simboloActual) == Simbolo.PARENTESIS_IZQ)
+                        {
+                            simboloActual++;
+                            simbolo = listaSimbolos.get(simboloActual);
+                            if(parametros())
+                            {
+                                if (listaSimbolos.get(simboloActual) == Simbolo.PARENTESIS_DER)
+                                {
+                                    simboloActual++;
+                                    simbolo = listaSimbolos.get(simboloActual);
+                                    if(declaraciones())
+                                    {
+                                        simboloActual++;
+                                        simbolo = listaSimbolos.get(simboloActual);
+                                        if(instruccion())
+                                        {
+                                            
+                                            if (listaSimbolos.get(simboloActual) == Simbolo.END_SIM)
+                                            {
+                                                simboloActual++;
+                                                simbolo = listaSimbolos.get(simboloActual);
+                                            }
+                                        }
+                                                
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        return true;
     }
 
     public static void main(String[] args) 
