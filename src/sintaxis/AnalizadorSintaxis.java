@@ -61,78 +61,85 @@ public class AnalizadorSintaxis implements Simbolos
                 System.out.println("No tiene cuerpo");
                 break;
             } 
-            if(listaSimbolos.get(simboloActual) == Simbolo.VAR_SIM)
+            
+            switch(listaSimbolos.get(simboloActual))
             {
-                simboloActual++;
-                if(tipo())
-                {
-                    
-                    do {
-                        simboloActual++;
-                        simbolo = listaSimbolos.get(simboloActual);
-                        if(listaSimbolos.get(simboloActual) == Simbolo.IDENTIFICADOR)
-                        {
+                case VAR_SIM:
+                    simboloActual++;
+                    if(tipo())
+                    {
+
+                        do {
                             simboloActual++;
                             simbolo = listaSimbolos.get(simboloActual);
-                            if(listaSimbolos.get(simboloActual) == Simbolo.OP_ASIGNACION)
+                            if(listaSimbolos.get(simboloActual) == Simbolo.IDENTIFICADOR)
                             {
                                 simboloActual++;
                                 simbolo = listaSimbolos.get(simboloActual);
-                                constante();
-                                simboloActual++;
-                                simbolo = listaSimbolos.get(simboloActual);
-                               
-                            }
-                        }
-                    } while (listaSimbolos.get(simboloActual) == Simbolo.COMA);
-                    
-                    if(listaSimbolos.get(simboloActual) == Simbolo.PUNTO_Y_COMA)
-                    {
-                        simboloActual++;
-                        simbolo = listaSimbolos.get(simboloActual);
-                    }
-                }
-            }
-            if(listaSimbolos.get(simboloActual) == Simbolo.CONST_SIM)
-            {
-                simboloActual++;
-                if(tipo())
-                { 
-                    //asignacion(); 
-                    do 
-                    {
-                        simboloActual++;
-                        simbolo = listaSimbolos.get(simboloActual);
-                        if(listaSimbolos.get(simboloActual) == Simbolo.IDENTIFICADOR)
-                        {
-                            simboloActual++;
-                            simbolo = listaSimbolos.get(simboloActual);
-                            if(listaSimbolos.get(simboloActual) == Simbolo.OP_ASIGNACION)
-                            {
-                                simboloActual++;
-                                simbolo = listaSimbolos.get(simboloActual);
-                                if(constante())
+                                if(listaSimbolos.get(simboloActual) == Simbolo.OP_ASIGNACION)
                                 {
                                     simboloActual++;
                                     simbolo = listaSimbolos.get(simboloActual);
+                                    constante();
+                                    simboloActual++;
+                                    simbolo = listaSimbolos.get(simboloActual);
+
                                 }
                             }
+                        } while (listaSimbolos.get(simboloActual) == Simbolo.COMA);
+
+                        if(listaSimbolos.get(simboloActual) == Simbolo.PUNTO_Y_COMA)
+                        {
+                            simboloActual++;
+                            simbolo = listaSimbolos.get(simboloActual);
                         }
-                                      
-                    } while (listaSimbolos.get(simboloActual) == Simbolo.COMA);
-                    
-                    //simboloActual++;
-                    if(listaSimbolos.get(simboloActual) == Simbolo.PUNTO_Y_COMA)
-                    {
-                        simboloActual++;
-                        simbolo = listaSimbolos.get(simboloActual);
                     }
                     
-                }
+                    break;
+                    
+                case CONST_SIM:
+                    simboloActual++;
+                    if(tipo())
+                    { 
+                        //asignacion(); 
+                        do 
+                        {
+                            simboloActual++;
+                            simbolo = listaSimbolos.get(simboloActual);
+                            if(listaSimbolos.get(simboloActual) == Simbolo.IDENTIFICADOR)
+                            {
+                                simboloActual++;
+                                simbolo = listaSimbolos.get(simboloActual);
+                                if(listaSimbolos.get(simboloActual) == Simbolo.OP_ASIGNACION)
+                                {
+                                    simboloActual++;
+                                    simbolo = listaSimbolos.get(simboloActual);
+                                    if(constante())
+                                    {
+                                        simboloActual++;
+                                        simbolo = listaSimbolos.get(simboloActual);
+                                    }
+                                }
+                            }
+
+                        } while (listaSimbolos.get(simboloActual) == Simbolo.COMA);
+
+                        //simboloActual++;
+                        if(listaSimbolos.get(simboloActual) == Simbolo.PUNTO_Y_COMA)
+                        {
+                            simboloActual++;
+                            simbolo = listaSimbolos.get(simboloActual);
+                        }
+
+                    }
+                    break;
+                    
+                default:
+                    error();
+                    break;
             }
         }
-        
-        
+   
         return true;
     }
     
@@ -454,15 +461,29 @@ public class AnalizadorSintaxis implements Simbolos
         {
             simboloActual++;
             simbolo = listaSimbolos.get(simboloActual);
-            if (listaSimbolos.get(simboloActual) == Simbolo.OP_ASIGNACION)
+            
+            switch(listaSimbolos.get(simboloActual)) 
             {
-                simboloActual++;
-                simbolo = listaSimbolos.get(simboloActual);
-                if(expresionSimple())
-                {
+                case OP_ASIGNACION:
+                    simboloActual++;
+                    simbolo = listaSimbolos.get(simboloActual);
+                    if(expresionSimple())
+                    {
+                        return true;
+                    }
+                    break;
+                
+                case OP_DECREMENTO:
+                case OP_INCREMENTO:
+                    simboloActual++;
+                    simbolo = listaSimbolos.get(simboloActual);
                     return true;
-                }
+                
+                default:
+                    error();
             }
+            
+           
         }
         return false;
     }
@@ -595,6 +616,25 @@ public class AnalizadorSintaxis implements Simbolos
         }
         if(listaSimbolos.get(simboloActual) == Simbolo.IDENTIFICADOR)
         {
+            if(listaSimbolos.get(simboloActual + 1) == Simbolo.PARENTESIS_IZQ)
+            {
+                simboloActual += 1;
+                simbolo = listaSimbolos.get(simboloActual);
+                do {                            
+                        simboloActual++;
+                        simbolo = listaSimbolos.get(simboloActual);
+                        if(!expresion())
+                        {
+                            error();
+                        }
+                } while (listaSimbolos.get(simboloActual) == Simbolo.COMA);
+                        
+                if (listaSimbolos.get(simboloActual) == Simbolo.PARENTESIS_DER)
+                {
+                   return true;
+                           
+                }
+            }
             return true;
         }
         if(constante() && opValido)
@@ -619,7 +659,7 @@ public class AnalizadorSintaxis implements Simbolos
     public void error()
     {
         System.out.println("Hay un error de sintaxis");
-        exit(1);
+        exit(0);
     }
 
     public boolean constante()
@@ -721,6 +761,8 @@ public class AnalizadorSintaxis implements Simbolos
         
         return true;
     }
+    
+    
 
     public static void main(String[] args) 
     {

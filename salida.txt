@@ -1,9 +1,37 @@
 1:  program primos;
 2:  
 3:  begin
-4:  	i++;
-5:  end
-6:  
-7:  
-8:  
-9:  
+4:  	for(var integer i := 1; i <= 10; i++)
+5:  	{
+6:  		if (esPrimo(i))
+7:  		{
+8:  			imprimir("Es primo");
+9:  		}
+10:  		else
+11:  		{
+12:  		        imprimir("No es primo");	
+13:  		}
+14:  
+15:  	}	
+16:  
+17:  end
+18:  
+19:  function boolean esPrimo(integer numero)
+20:  var integer contador := 2;
+21:  var boolean primo := true;
+22:  begin
+23:  
+24:  	while((primo) (contador != numero))
+25:  	{
+26:  		if (numero % contador == 0)
+27:  		{
+28:  
+29:  			primo := false;
+30:  		}
+31:  
+32:  		contador++;
+33:  	}
+34:  	
+35:  	return primo;
+36:  
+37:  end
