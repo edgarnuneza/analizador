@@ -10,7 +10,7 @@ public class AnalizadorLexico implements Simbolos {
     int numeroLinea;
     String linea;
     int indice;
-    String[] tablaIdentificadores = new String[100];
+    String[] tablaIdentificadores = new String[1000];
     private int numeroIdentificadores;
     private Token actualToken;
     private char c;

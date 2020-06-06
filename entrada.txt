@@ -1,7 +1,8 @@
 program primos;
-var integer l:= 8, a, i:= 8.5;
+const character l:= 'a';
+var integer variable := -8;
 begin
-	for(var integer i := 1; i <= 10; i++)
+	for(var integer i := 8; i <= 10; i++)
 	{
 		if (esPrimo(i))
 		{

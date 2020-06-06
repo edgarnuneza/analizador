@@ -46,8 +46,8 @@ public class AnalizadorSintaxis implements Simbolos
                     
             }
         }
-
-        return false;
+        
+        return true;
     }
     
     public boolean declaraciones()
@@ -150,7 +150,7 @@ public class AnalizadorSintaxis implements Simbolos
         {
             return true;
         }
- 
+        error();
         return false;
     }
     
@@ -424,7 +424,7 @@ public class AnalizadorSintaxis implements Simbolos
                 }
             }
         
-        
+        error();
         return false;
     }
     
@@ -457,6 +457,7 @@ public class AnalizadorSintaxis implements Simbolos
                 return true;
             }
  
+        error();
         return false;
     }
     
@@ -490,6 +491,7 @@ public class AnalizadorSintaxis implements Simbolos
             
            
         }
+        error();
         return false;
     }
     
@@ -597,6 +599,7 @@ public class AnalizadorSintaxis implements Simbolos
             }
             return true;
         }
+        error();
         return false;
     }
     
@@ -684,6 +687,7 @@ public class AnalizadorSintaxis implements Simbolos
         {
             return true;
         }
+        error();
         return false;
         
     }

@@ -14,17 +14,10 @@ public interface Simbolos {
         INTEGER_SIM,
         CHARACTER_SIM,
         IF_SIM,
-        THEN_SIM,
-        FI_SIM,
         ELSE_SIM,
         WHILE_SIM,
         FOR_SIM,
         VOID_SIM,
-        CASE_SIM,
-        WHEN_SIM,
-        ESAC_SIM,
-        OTHERWISE_SIM,
-        EXIT_SIM,
         FUNCTION_SIM,
         RETURN_SIM,
         CTE_ENTERA,
@@ -62,52 +55,12 @@ public interface Simbolos {
         OTRO
     }
 
-    /*public enum Simbolo {
-        IDENTIFICADOR,
-        CTE_ENTERA, CTE_REAL, CTE_BOOLEANA, CTE_CHAR,
-        CTE_LITERAL,
-        OP_MAS, OP_MENOS, OP_POR, OP_ENTRE, OP_MODULO,
-        OP_ASIGNACION,
-        OP_ASIGN_MAS, OP_ASIGN_MENOS, OP_ASIGN_POR,
-        OP_ASIGN_ENTRE,
-        OP_IGUALDAD, OP_DESIGUALDAD,
-        OP_MENOR_QUE, OP_INCREMENTO, OP_DECREMENTO,
-        OP_ASIGN_DEZPLAZA_DER_SIN_SIGNO,
-        OP_ASIGN_DEZPLAZA_IZQ,
-        OP_ASIGN_MODULO,
-        OP_MENOR_O_IGUAL_QUE,
-        OP_MAYOR_QUE, OP_MAYOR_O_IGUAL_QUE,
-        OP_COMPLEMENTO,
-        OP_AND_BOLEANO,
-        OP_AND_CORTO, OP_OR_BOLEANO, OP_OR_CORTO,
-        PUNTO_Y_COMA, COMA, PUNTO, PARENTESIS_IZQ, PARENTESIS_DER, LLAVE_IZQ, LLAVE_DER, CORCHETE_IZQ, CORCHETE_DER, HASHTAG,
-        BOOL_SIM, BREAK_SIM, CASE_SIM, CHAR_SIM, CONST_SIM, CONTINUE_SIM,
-        DEFAULT_SIM, DO_SIM, ELSE_SIM, FLOAT_SIM, FOR_SIM, IF_SIM, INCLUDE_SIM,
-        INT_SIM, RETURN_SIM, SWITCH_SIM, VOID_SIM, WHILE_SIM, OTRO, FIN_DE_ARCHIVO
-    };*/
- /*
-        PROGRAM_SIM,
-BEGIN_SIM,
-END_SIM,
-VAR_SIM,
-CONST_SIM,
-REAL_SIM,
-BOOLEAN_SIM,
-INTEGER_SIM,
-CHARACTER_SIM,
-IF_SIM,
-THEN_SIM,
-FI_SIM,
-ELSE_SIM,
-WHILE_SIM,
-FOR_SIM,
-     */
     public String[] tablaPalabrasReservadas
             = {"program", "begin", "end", "var", "const", "real",
-                "boolean", "integer", "character", "if", "then", "fi", "else",
-                "while", "for", "void", "case", "when", "esac", "otherwise", "exit", "function", "return"};
+                "boolean", "integer", "character", "if", "else",
+                "while", "for", "void", "function", "return"};
     public String[] tablaSimbolosPalabrasReservadas
             = {"PROGRAM_SIM", "BEGIN_SIM", "END_SIM", "VAR_SIM", "CONST_SIM", "REAL_SIM",
-                "BOOLEAN_SIM", "INTEGER_SIM", "CHARACTER_SIM", "IF_SIM", "THEN_SIM", "FI_SIM", "ELSE_SIM",
-                "WHILE_SIM", "FOR_SIM", "VOID_SIM", "CASE_SIM", "WHEN_SIM", "ESAC_SIM", "OTHERWISE_SIM", "EXIT_SIM", "FUNCTION_SIM", "RETURN_SIM"};
+                "BOOLEAN_SIM", "INTEGER_SIM", "CHARACTER_SIM", "IF_SIM", "ELSE_SIM",
+                "WHILE_SIM", "FOR_SIM", "VOID_SIM", "FUNCTION_SIM", "RETURN_SIM"};
 }

@@ -1,37 +1,38 @@
 1:  program primos;
-2:  var integer l:= 8, a, i:= 8.5;
-3:  begin
-4:  	for(var integer i := 1; i <= 10; i++)
-5:  	{
-6:  		if (esPrimo(i))
-7:  		{
-8:  			imprimir("Es primo");
-9:  		}
-10:  		else
-11:  		{
-12:  		        imprimir("No es primo");	
-13:  		}
-14:  
-15:  	}	
-16:  
-17:  end
-18:  
-19:  function boolean esPrimo(integer numero)
-20:  var integer contador := 2;
-21:  var boolean primo := true;
-22:  
-23:  begin
-24:  	while((primo) && (contador != numero))
-25:  	{
-26:  		if (numero % contador == 0)
-27:  		{
-28:  
-29:  			primo := false;
-30:  		}
-31:  
-32:  		contador++;
-33:  	}
-34:  	
-35:  	return primo;
-36:  
-37:  end
+2:  const character l:= 'a';
+3:  var integer variable := -8;
+4:  begin
+5:  	for(var integer i := 8; i <= 10; i++)
+6:  	{
+7:  		if (esPrimo(i))
+8:  		{
+9:  			imprimir("Es primo");
+10:  		}
+11:  		else
+12:  		{
+13:  		        imprimir("No es primo");	
+14:  		}
+15:  
+16:  	}	
+17:  
+18:  end
+19:  
+20:  function boolean esPrimo(integer numero)
+21:  var integer contador := 2;
+22:  var boolean primo := true;
+23:  
+24:  begin
+25:  	while((primo) && (contador != numero))
+26:  	{
+27:  		if (numero % contador == 0)
+28:  		{
+29:  
+30:  			primo := false;
+31:  		}
+32:  
+33:  		contador++;
+34:  	}
+35:  	
+36:  	return primo;
+37:  
+38:  end
