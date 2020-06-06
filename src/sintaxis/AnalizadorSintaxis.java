@@ -9,7 +9,6 @@ public class AnalizadorSintaxis implements Simbolos
     private Simbolo simbolo;
     private int simboloActual = 0;
     private ArrayList<Simbolo> listaSimbolos;
-    private boolean bandera = true;
     
     public AnalizadorSintaxis()
     {
@@ -58,7 +57,7 @@ public class AnalizadorSintaxis implements Simbolos
         {
             if(listaSimbolos.get(simboloActual) == Simbolo.FIN_DE_ARCHIVO)
             {
-                System.out.println("No tiene cuerpo");
+                error();
                 break;
             } 
             
@@ -94,7 +93,8 @@ public class AnalizadorSintaxis implements Simbolos
                             simbolo = listaSimbolos.get(simboloActual);
                         }
                     }
-                    
+                    else
+                        error();
                     break;
                     
                 case CONST_SIM:
@@ -156,239 +156,244 @@ public class AnalizadorSintaxis implements Simbolos
     
     public boolean instruccion()
     {
+        boolean bandera = true;
         while(listaSimbolos.get(simboloActual) != Simbolo.END_SIM && bandera)
         {
             simbolo = listaSimbolos.get(simboloActual);
-            if(listaSimbolos.get(simboloActual) == Simbolo.IDENTIFICADOR)
+            
+            switch(listaSimbolos.get(simboloActual))
             {
-                simboloActual++;
-                simbolo = listaSimbolos.get(simboloActual);
-                switch(listaSimbolos.get(simboloActual))
-                {
-                    case OP_ASIGNACION:
-                        simboloActual++;
-                        simbolo = listaSimbolos.get(simboloActual);
-                        if(expresionSimple())
-                        {
-                            if(listaSimbolos.get(simboloActual) == Simbolo.PUNTO_Y_COMA)
-                            {
-                                simboloActual++;
-                                simbolo = listaSimbolos.get(simboloActual);
-
-                            }
-                        }
-                        break;
-                    case PARENTESIS_IZQ: 
-                        do {                            
+                case IDENTIFICADOR:
+                    simboloActual++;
+                    simbolo = listaSimbolos.get(simboloActual);
+                    
+                    switch(listaSimbolos.get(simboloActual))
+                    {
+                        case OP_ASIGNACION:
                             simboloActual++;
                             simbolo = listaSimbolos.get(simboloActual);
-                            if(!expresion())
+                            if(expresionSimple())
                             {
-                                error();
+                                if(listaSimbolos.get(simboloActual) == Simbolo.PUNTO_Y_COMA)
+                                {
+                                    simboloActual++;
+                                    simbolo = listaSimbolos.get(simboloActual);
+
+                                }
                             }
-                        } while (listaSimbolos.get(simboloActual) == Simbolo.COMA);
-                        
-                       if (listaSimbolos.get(simboloActual) == Simbolo.PARENTESIS_DER)
-                       {
-                           simboloActual++;
-                           simbolo = listaSimbolos.get(simboloActual);
-                           if (listaSimbolos.get(simboloActual) == Simbolo.PUNTO_Y_COMA)
+                            break;
+                        case PARENTESIS_IZQ: 
+                            do {                            
+                                simboloActual++;
+                                simbolo = listaSimbolos.get(simboloActual);
+                                if(!expresion())
+                                {
+                                    error();
+                                }
+                            } while (listaSimbolos.get(simboloActual) == Simbolo.COMA);
+
+                           if (listaSimbolos.get(simboloActual) == Simbolo.PARENTESIS_DER)
                            {
                                simboloActual++;
                                simbolo = listaSimbolos.get(simboloActual);
+                               if (listaSimbolos.get(simboloActual) == Simbolo.PUNTO_Y_COMA)
+                               {
+                                   simboloActual++;
+                                   simbolo = listaSimbolos.get(simboloActual);
+                               }
+
                            }
-                           
-                       }
-                       break;
-                       
-                    case OP_DECREMENTO:
-                    case OP_INCREMENTO:
-                        simboloActual++;
-                        simbolo = listaSimbolos.get(simboloActual);
-                        if (listaSimbolos.get(simboloActual) == Simbolo.PUNTO_Y_COMA)
-                        {
+                           break;
+
+                        case OP_DECREMENTO:
+                        case OP_INCREMENTO:
                             simboloActual++;
                             simbolo = listaSimbolos.get(simboloActual);
-                        }
-                    
-                }
-                
-            }
-            
-            if(listaSimbolos.get(simboloActual) == Simbolo.LLAVE_DER)
-            {
-                break;
-            }
-                        
-            if(listaSimbolos.get(simboloActual) == Simbolo.IF_SIM)
-            {
-                simboloActual++;
-                simbolo = listaSimbolos.get(simboloActual);
-                if(listaSimbolos.get(simboloActual) == Simbolo.PARENTESIS_IZQ)
-                {
-                    simboloActual++;
-                    simbolo = listaSimbolos.get(simboloActual);
-                    if(expresion())
-                    {
-                     
-                        if(listaSimbolos.get(simboloActual) == Simbolo.PARENTESIS_DER)
-                        {
-                            simboloActual++;
-                            simbolo = listaSimbolos.get(simboloActual);
-                            if(listaSimbolos.get(simboloActual) == Simbolo.LLAVE_IZQ)
+                            if (listaSimbolos.get(simboloActual) == Simbolo.PUNTO_Y_COMA)
                             {
                                 simboloActual++;
                                 simbolo = listaSimbolos.get(simboloActual);
-                                if(instruccion())
+                            }
+                            break;
+                            
+                        default:
+                            error();
+                            break;
+
+                    }
+                    break;
+                    
+                case LLAVE_DER:
+                    bandera = false;
+                    break;
+
+                case IF_SIM:
+                    simboloActual++;
+                    simbolo = listaSimbolos.get(simboloActual);
+                    if(listaSimbolos.get(simboloActual) == Simbolo.PARENTESIS_IZQ)
+                    {
+                        simboloActual++;
+                        simbolo = listaSimbolos.get(simboloActual);
+                        if(expresion())
+                        {
+
+                            if(listaSimbolos.get(simboloActual) == Simbolo.PARENTESIS_DER)
+                            {
+                                simboloActual++;
+                                simbolo = listaSimbolos.get(simboloActual);
+                                if(listaSimbolos.get(simboloActual) == Simbolo.LLAVE_IZQ)
                                 {
-                                    if(listaSimbolos.get(simboloActual) == Simbolo.LLAVE_DER)
+                                    simboloActual++;
+                                    simbolo = listaSimbolos.get(simboloActual);
+                                    if(instruccion())
                                     {
-                                       simboloActual++;
-                                        simbolo = listaSimbolos.get(simboloActual);
-                                        if(listaSimbolos.get(simboloActual) == Simbolo.ELSE_SIM)
+                                        if(listaSimbolos.get(simboloActual) == Simbolo.LLAVE_DER)
                                         {
-                                            simboloActual++;
+                                           simboloActual++;
                                             simbolo = listaSimbolos.get(simboloActual);
-                                            if(listaSimbolos.get(simboloActual) == Simbolo.LLAVE_IZQ)
+                                            if(listaSimbolos.get(simboloActual) == Simbolo.ELSE_SIM)
                                             {
                                                 simboloActual++;
                                                 simbolo = listaSimbolos.get(simboloActual);
-                                                if(instruccion())
+                                                if(listaSimbolos.get(simboloActual) == Simbolo.LLAVE_IZQ)
                                                 {
-                                                    
-                                                    if(listaSimbolos.get(simboloActual) == Simbolo.LLAVE_DER)
+                                                    simboloActual++;
+                                                    simbolo = listaSimbolos.get(simboloActual);
+                                                    if(instruccion())
                                                     {
-                                                         simboloActual++;
-                                                         simbolo = listaSimbolos.get(simboloActual);
+
+                                                        if(listaSimbolos.get(simboloActual) == Simbolo.LLAVE_DER)
+                                                        {
+                                                             simboloActual++;
+                                                             simbolo = listaSimbolos.get(simboloActual);
+                                                        }
                                                     }
                                                 }
                                             }
                                         }
                                     }
                                 }
+
                             }
-                            
                         }
                     }
-                }
-            }
-            
-            if(listaSimbolos.get(simboloActual) == Simbolo.WHILE_SIM)
-            {
-                simboloActual++;
-                simbolo = listaSimbolos.get(simboloActual);
-                if(listaSimbolos.get(simboloActual) == Simbolo.PARENTESIS_IZQ)
-                {
+                    break;
+                    
+                case WHILE_SIM:
                     simboloActual++;
                     simbolo = listaSimbolos.get(simboloActual);
-                    if(expresion())
+                    if(listaSimbolos.get(simboloActual) == Simbolo.PARENTESIS_IZQ)
                     {
-                        
-                        if(listaSimbolos.get(simboloActual) == Simbolo.PARENTESIS_DER)
+                        simboloActual++;
+                        simbolo = listaSimbolos.get(simboloActual);
+                        if(expresion())
                         {
-                            simboloActual++;
-                            simbolo = listaSimbolos.get(simboloActual);
-                            if(listaSimbolos.get(simboloActual) == Simbolo.LLAVE_IZQ)
+
+                            if(listaSimbolos.get(simboloActual) == Simbolo.PARENTESIS_DER)
                             {
                                 simboloActual++;
                                 simbolo = listaSimbolos.get(simboloActual);
-                                if(instruccion())
+                                if(listaSimbolos.get(simboloActual) == Simbolo.LLAVE_IZQ)
                                 {
-                                    if(listaSimbolos.get(simboloActual) == Simbolo.LLAVE_DER)
+                                    simboloActual++;
+                                    simbolo = listaSimbolos.get(simboloActual);
+                                    if(instruccion())
                                     {
-                                        simboloActual++;
-                                        simbolo = listaSimbolos.get(simboloActual);
+                                        if(listaSimbolos.get(simboloActual) == Simbolo.LLAVE_DER)
+                                        {
+                                            simboloActual++;
+                                            simbolo = listaSimbolos.get(simboloActual);
+                                        }
                                     }
                                 }
                             }
+
                         }
 
                     }
-                    
-                }
-            }
-            
-            if(listaSimbolos.get(simboloActual) == Simbolo.RETURN_SIM)
-            {
-                boolean returnVacio = false;
-                
-                
-                simboloActual++;
-                simbolo = listaSimbolos.get(simboloActual);
-                
-                if(listaSimbolos.get(simboloActual) == Simbolo.PUNTO_Y_COMA)
-                {
-                    returnVacio = true;
+                    break;
+                            
+                case RETURN_SIM:
+                    boolean returnVacio = false;
+
                     simboloActual++;
                     simbolo = listaSimbolos.get(simboloActual);
-                }
-                if(expresionSimple() && !returnVacio)
-                {
+
                     if(listaSimbolos.get(simboloActual) == Simbolo.PUNTO_Y_COMA)
                     {
+                        returnVacio = true;
                         simboloActual++;
                         simbolo = listaSimbolos.get(simboloActual);
                     }
-                }
-            }
-            
-           if(listaSimbolos.get(simboloActual) == Simbolo.FOR_SIM)
-           {
-                simboloActual++;
-                simbolo = listaSimbolos.get(simboloActual);
-                if(listaSimbolos.get(simboloActual) == Simbolo.PARENTESIS_IZQ)
-                {
+                    if(expresionSimple() && !returnVacio)
+                    {
+                        if(listaSimbolos.get(simboloActual) == Simbolo.PUNTO_Y_COMA)
+                        {
+                            simboloActual++;
+                            simbolo = listaSimbolos.get(simboloActual);
+                        }
+                    }
+                    break;
+                    
+                case FOR_SIM:
                     simboloActual++;
                     simbolo = listaSimbolos.get(simboloActual);
-                    if(listaSimbolos.get(simboloActual) == Simbolo.VAR_SIM)
+                    if(listaSimbolos.get(simboloActual) == Simbolo.PARENTESIS_IZQ)
                     {
                         simboloActual++;
                         simbolo = listaSimbolos.get(simboloActual);
-                        if(tipo())
+                        if(listaSimbolos.get(simboloActual) == Simbolo.VAR_SIM)
                         {
-                            if(asignacionFor(false))
+                            simboloActual++;
+                            simbolo = listaSimbolos.get(simboloActual);
+                            if(tipo())
                             {
-                                if(forParte2())
+                                if(asignacionFor(false))
                                 {
-                                    if(instruccion())
+                                    if(forParte2())
                                     {
-                                        if(listaSimbolos.get(simboloActual) == Simbolo.LLAVE_DER)
+                                        if(instruccion())
                                         {
-                                            simboloActual++;
-                                            simbolo = listaSimbolos.get(simboloActual);
-                                        } 
+                                            if(listaSimbolos.get(simboloActual) == Simbolo.LLAVE_DER)
+                                            {
+                                                simboloActual++;
+                                                simbolo = listaSimbolos.get(simboloActual);
+                                            } 
+                                        }
                                     }
                                 }
                             }
+
                         }
-                        
-                    }
-                    if(listaSimbolos.get(simboloActual) == Simbolo.IDENTIFICADOR)
-                    {
-                        if(asignacionFor(true))
+                        if(listaSimbolos.get(simboloActual) == Simbolo.IDENTIFICADOR)
                         {
-                            if(forParte2())
+                            if(asignacionFor(true))
                             {
-                                    if(instruccion())
-                                    {
-                                        if(listaSimbolos.get(simboloActual) == Simbolo.LLAVE_DER)
+                                if(forParte2())
+                                {
+                                        if(instruccion())
                                         {
-                                            simboloActual++;
-                                            simbolo = listaSimbolos.get(simboloActual);
-                                        } 
+                                            if(listaSimbolos.get(simboloActual) == Simbolo.LLAVE_DER)
+                                            {
+                                                simboloActual++;
+                                                simbolo = listaSimbolos.get(simboloActual);
+                                            } 
+                                        }
                                     }
-                                }
+                            }
+
                         }
-                      
                     }
+                    break;
                     
-                }
-               
-           }
+                default:
+                    error();
+                    break;    
+            }
         }
         
         return true;
-        
+    
     }
     
     public boolean forParte2()
@@ -651,8 +656,8 @@ public class AnalizadorSintaxis implements Simbolos
                 
             }
         }
-        
-        
+      
+        error();
         return false;
     }
     

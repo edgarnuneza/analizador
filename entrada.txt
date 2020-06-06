@@ -1,5 +1,5 @@
 program primos;
-
+var integer l:= 8, a, i:= 8.5;
 begin
 	for(var integer i := 1; i <= 10; i++)
 	{
@@ -19,8 +19,8 @@ end
 function boolean esPrimo(integer numero)
 var integer contador := 2;
 var boolean primo := true;
-begin
 
+begin
 	while((primo) && (contador != numero))
 	{
 		if (numero % contador == 0)
